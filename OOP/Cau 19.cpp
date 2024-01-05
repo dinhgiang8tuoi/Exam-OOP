@@ -1,20 +1,19 @@
 #include <iostream>
-#include <cmath>
 
 using namespace std;
 
 int gcd(int a, int b){
     while (a != b){
         if (a > b)
-            a = a - b;
-        else b = b - a;
+            a = a -b;
+        else b = b -a;
     }
     return a;
 }
 
 class PS1{
 protected:
-    int ts,ms;
+    int ts, ms;
 public:
     void nhap(){
         do{
@@ -22,11 +21,11 @@ public:
             cin >> ts;
             cout << "MS: ";
             cin >> ms;
-            if (ms < 0) {
+            if (ms < 0){
                 ts = ts *-1;
                 ms = ms *-1;
             }
-        }while (ms == 0);
+        }while(ms == 0);
     }
     void xuat(){
         cout << "PS: " << ts << "/" << ms << endl;
@@ -45,13 +44,13 @@ public:
 };
 class PS2 :public PS1{
 public:
-    PS2 operator= (PS1 other){
+    PS2 operator =(PS1 other){
         this->ts = other.getTS();
         this->ms = other.getMS();
         return *this;
     }
-    bool operator> (PS2 other){
-        return (this->ts *other.ms > this->ms *other.ts);
+    bool operator <(PS2 other){
+        return (this->ts *other.ms < this->ms * other.ts);
     }
 };
 
@@ -60,7 +59,7 @@ void listPS2(PS2 *&ps, int &n){
         cout << "Nhap so luong phan so: ";
         cin >> n;
         ps = new PS2[n];
-    }while (n > 10);
+    }while(n > 10);
 
     for (int i = 0; i < n; i++){
         ps[i].nhap();
@@ -68,19 +67,20 @@ void listPS2(PS2 *&ps, int &n){
     }
 }
 
-void sort(PS2 *&ps, int n){
-    for (int i = 0; i < n -1; i++)
-    for (int j = i + 1; j < n; j++){
-        if (ps[j] > ps[i])
-            swap(ps[i], ps[j]);
-    }
-}
+void findMaxMin(PS2 *ps, int n){
+    PS2 max = ps[0];
+    PS2 min = ps[0];
 
-void print(PS2 *ps, int n){
-    cout << "Sorted: " << endl;
-    for (int i = 0; i< n; i++){
-        ps[i].xuat();
+    for (int i =0; i < n; i++){
+        if (ps[i] < min){
+            min = ps[i];
+        }else max = ps[i];
     }
+    cout << "Min: ";
+    min.xuat();
+    cout << endl << "Max: ";
+    max.xuat();
+    cout << endl;
 }
 
 int main(){
@@ -88,9 +88,8 @@ int main(){
     PS2 *ps = nullptr;
 
     listPS2(ps, n);
-    sort(ps, n);
-    print(ps, n);
+    findMaxMin(ps, n);
 
 
-    delete [] ps;
+delete [] ps;
 }
